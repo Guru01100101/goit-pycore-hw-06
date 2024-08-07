@@ -23,23 +23,36 @@ class Phone(Field):
 
 
 class Record:
-    def __init__(self, name, phones: List[Phone] = []):
+    def __init__(self, name, phones: List[str] = None):
         self.name = Name(name)
-        self.phones = phones
+        self.phones = []
+        if phones is not None:
+            for phone in phones:
+                try:
+                    self.add_phone(phone)
+                except ValueError as e:
+                    print(e)
 
     def add_phone(self, phone):
-        self.phones.append(phone)
+        self.phones.append(Phone(phone))
 
     def edit_phone(self, phone, new_phone):
         for p in self.phones:
-            if p.value == phone:
-                p.value = new_phone
+            if p.value == normalize_phone(phone):
+                p.value = normalize_phone(new_phone)
+                return f"Phone {phone} edited to {new_phone}"
 
     def search_phone(self, phone):
         for p in self.phones:
-            if p.value == phone:
+            if p.value == normalize_phone(phone):
                 return p
         return None
+
+    def delete_phone(self, phone):
+        for p in self.phones:
+            if p.value == normalize_phone(phone):
+                self.phones.remove(p)
+                return f"Phone {phone} deleted"
 
     def __str__(self):
         return (f"Contact name: {self.name.value}, "
