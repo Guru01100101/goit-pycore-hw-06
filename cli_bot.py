@@ -9,7 +9,7 @@ john_record.add_phone('0552-237-519')
 book.add_record(john_record)
 
 jane_record = Record("Jane")
-jane_record.add_phone("0987654321")
+jane_record.add_phone("0987654321")  # Number must begin with 0 or +380 and have 9 digits after 0
 book.add_record(jane_record)
 
 for name, record in book.data.items():
